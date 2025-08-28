@@ -62,8 +62,11 @@ class Window:
     @property
     def screen_center(self):
         width, height = self._instance.get_size()
-        return (width / 2, height / 2)
+        return [width / 2, height / 2]
 
+    @property
+    def surface(self):
+        return self._instance
 
     def run(self):
         try:
@@ -74,5 +77,7 @@ class Window:
                         break
 
                     self._handle_event(event)
+
+                display.flip()
         except KeyboardInterrupt:
             pygame_quit()
