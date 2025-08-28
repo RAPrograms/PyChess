@@ -49,6 +49,20 @@ class Window:
             self._event_handlers[str(type)] = func
             return func
         return inner
+    
+    def add_event(self, type: int, func: Callable[[Event], None]):
+        self._event_handlers[str(type)] = func
+
+
+    @property
+    def smallest_boundary(self):
+        width, height = self._instance.get_size()
+        return min(width, height)
+        
+    @property
+    def screen_center(self):
+        width, height = self._instance.get_size()
+        return (width / 2, height / 2)
 
 
     def run(self):
