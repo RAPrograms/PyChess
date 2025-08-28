@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Generator
 
 from units import Coordinate
 from enums import Team
@@ -26,7 +26,7 @@ class Model:
     def set_cell(
         self,
         position: Coordinate,
-        value: None | Rook | Knight | Bishop | King | Queen | Bishop | Knight |Rook
+        value: None | Rook | Knight | Bishop | King | Queen | Bishop | Knight | Rook
     ):
         self._board[position.index] = value
 
@@ -42,7 +42,7 @@ class Model:
             
 
 
-    def itterate_board(self):
+    def itterate_board(self) -> Generator[tuple[Coordinate, None | Rook | Knight | Bishop | King | Queen | Bishop | Knight | Rook], Any, None]:
         for i in range(64):
             coordinate = Coordinate(i)
             try:

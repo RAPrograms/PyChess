@@ -18,7 +18,7 @@ class View:
         cWhite = (255, 255, 255)
         cBlack = (0,255,0)
 
-        for pos, _ in self.model.itterate_board():
+        for pos, value in self.model.itterate_board():
             col, row = pos.position
             colour = cWhite if (pos.index + (row % 2)) % 2 == 0 else cBlack
 
@@ -28,6 +28,9 @@ class View:
                 cell_size,
                 cell_size
             ))
+
+            if(value):
+                value.draw(start, pos, self.window.surface, cell_size)
 
 
     def draw(self):
