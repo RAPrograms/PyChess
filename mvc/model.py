@@ -68,12 +68,12 @@ class Model:
             distance -= 1
 
         for _ in range(distance):
-            try:
-                pos = pos.move(direction)
-                contents = self.get_cell(pos)
-                output.append(contents)
-            except AssertionError:
+            pos = pos.move(direction)
+            if(pos is None):
                 break
+            
+            contents = self.get_cell(pos)
+            output.append(contents)
 
         return output
 

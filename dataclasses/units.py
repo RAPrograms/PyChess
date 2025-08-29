@@ -90,10 +90,26 @@ class Coordinate:
         return True
 
     def move(self, direction: Direction, distance: int = 1):
-        assert distance >= 1, "Distance must be a positive number"
-        velocity = (direction.value[1] * 8) + direction.value[0]
-        velocity *= distance
-        return Coordinate(self.index + velocity)
+        if(distance < 1):
+            return None
+
+        [column, row] = self.position
+
+        horizontal_velocity, vertical_velocity = direction.value
+        horizontal_velocity *= distance
+        vertical_velocity *= distance
+
+        column += horizontal_velocity
+        row += vertical_velocity
+
+        if(column < 0 or row < 0):
+            return None
+        
+        if(8 <= column or 8 <= row):
+            return None
+        
+        return Coordinate.from_position(column, row)
+
     
     def create_move_path(self, direction: Direction, distance: int = 2):
         assert distance >= 1, "Distance must be a positive number"

@@ -27,7 +27,9 @@ class Pawn(Piece):
         ##Forward
         forward_pieces = model.get_pieces_in_direction(position, forward_dir, 1)
         if(len(forward_pieces) > 0 and forward_pieces[0] == None):
-            output.append(position.move(forward_dir))
+            pos = position.move(forward_dir)
+            if(pos is not None):
+                output.append(pos)
        
         #Side Captures
         for abs_dir in [RelativeDirection.ForwardLeft, RelativeDirection.ForwardRight]:
@@ -43,6 +45,8 @@ class Pawn(Piece):
             if(len(path) > 1 and path[1] is not None):
                 continue
 
-            output.append(position.move(abs_dir))
+            pos = position.move(abs_dir)
+            if(pos is not None):
+                output.append(pos)
 
         return output
