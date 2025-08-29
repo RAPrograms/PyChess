@@ -1,7 +1,7 @@
 from typing import Any, Generator
 
+from dataclasses.enums import Direction, Team
 from dataclasses.units import Coordinate
-from dataclasses.enums import Team
 
 from pieces.bishop import Bishop
 from pieces.knight import Knight
@@ -16,6 +16,9 @@ class Model:
     def __init__(self):
         self.clear_board()
         self.setup_pieces()
+
+        pos = Coordinate.from_position(0, 6)
+        self._board[pos.index].get_valid_movements(pos, self._board)
 
 
     def clear_board(self):
@@ -40,6 +43,24 @@ class Model:
             self.set_cell(Coordinate.from_position(i, 1), Pawn(Team.White))
             self.set_cell(Coordinate.from_position(i, 6), Pawn(Team.Black))
             
+
+    def get_direction_pieces(self,
+        position: Coordinate,
+        direction: Direction,
+        range: int = None,
+        result: list[None | Rook | Knight | Bishop | King | Queen | Bishop | Knight | Rook] = None
+    ):
+        if(range is not None):
+            range -= 1
+
+        next_position = position.move(direction)
+        if(not next_position.is_valid() or range == 0):
+            return [self._board[next_position.index]]
+
+        output = self.get_direction_pieces(next_position, direction, range, result) or []
+        output.insert(0, self._board[position.index])
+        return output
+
 
 
     def itterate_board(self) -> Generator[tuple[Coordinate, None | Rook | Knight | Bishop | King | Queen | Bishop | Knight | Rook], Any, None]:

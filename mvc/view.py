@@ -12,7 +12,7 @@ class View:
 
         self.draw()
 
-    def draw_checkerboard(self, start: list[int], size: int):
+    def draw_board(self, start: list[int], size: int):
         cell_size = size / 8
 
         cWhite = (255, 255, 255)
@@ -43,4 +43,4 @@ class View:
         offset[0] -= half_board
         offset[1] -= half_board
 
-        self.draw_checkerboard(offset, board_size)
+        self.draw_board(offset, board_size)

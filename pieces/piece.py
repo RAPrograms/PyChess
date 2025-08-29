@@ -23,3 +23,16 @@ class Piece:
             offset[0] + (col * size) + center_offset,
             offset[1] + (row * size) + center_offset,
         ))
+
+    def get_side_distance(self, position: Coordinate):
+        """
+        Returns the rows from the team's side
+
+        White side is the top and Black's is the bottom
+        """
+        if self.team == Team.White:
+            return position.row + 1
+        return 8 - position.row
+
+    def get_valid_movements(self, position: Coordinate) -> list[Coordinate]:
+        raise NotImplemented
