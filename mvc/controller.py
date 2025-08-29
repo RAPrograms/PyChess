@@ -41,8 +41,7 @@ class Controller:
         [offset, board_size] = self.view.get_board_details()
         pos = Coordinate.from_pixel(event, offset, board_size)
 
-        self.model.set_cell(pos, movement.piece)
-        self.model.set_cell(movement.position, None)
+        self.model.move_piece(movement.position, pos)
 
         self.model.end_piece_movement()
         self._draw()

@@ -21,7 +21,7 @@ class Model:
         self.setup_pieces()
         self._moving_piece = None
 
-        pos = Coordinate.from_position(0, 6)
+        pos = Coordinate.from_position(0, 1)
         self._board[pos.index].get_valid_movements(pos, self._board)
 
 
@@ -82,16 +82,25 @@ class Model:
                 yield (coordinate, self._board[i])
             except IndexError:
                 yield (coordinate, None)
+
+
+    def move_piece(self, original: Coordinate, new: Coordinate):
+        contents = self.get_cell(original)
+        self.set_cell(original, None)
+        self.set_cell(new, contents)
         
+
     @property
     def movement_piece(self):
         return self._moving_piece
+
 
     def start_piece_movement(self, pos: Coordinate):
         self._moving_piece = MovingEvent(
             position=pos,
             piece=self.get_cell(pos)
         )
+
 
     def end_piece_movement(self):
         self._moving_piece = None
