@@ -11,17 +11,14 @@ class Piece:
 
         self.image = gameImage.load(f"./assets/{team.value}/{type}.png")
 
-    def draw(self, offset: list[int], position: Coordinate, display: Surface, size: int):
-        col, row = position.position
-
+    def draw(self, x: int, y: int, display: Surface, size: int):
         img_size = size - 10
         img = gameTransform.scale(self.image, (img_size, img_size))
 
-        center_offset = (size / 2) - (img_size / 2)
-
+        half_size = img_size / 2
         display.blit(img, (
-            offset[0] + (col * size) + center_offset,
-            offset[1] + (row * size) + center_offset,
+            x - half_size,
+            y - half_size
         ))
 
     def get_side_distance(self, position: Coordinate):

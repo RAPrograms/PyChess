@@ -1,5 +1,5 @@
+from pygame import locals, draw, mouse
 from typing import Any, Generator
-from pygame import locals, draw
 
 from dataclasses.units import Coordinate
 from dataclasses.window import Window
@@ -35,7 +35,11 @@ class View:
 
         return [offset, board_size]
 
-    def draw(self, data: Generator[tuple[Coordinate, None | Rook | Knight | Bishop | King | Queen | Bishop | Knight | Rook | Pawn], Any, None]):
+    def draw(
+        self,
+        data: Generator[tuple[Coordinate, None | Rook | Knight | Bishop | King | Queen | Bishop | Knight | Rook | Pawn], Any, None],
+        movement_piece: int = -1
+    ):
         self.window.surface.fill((0,0,0))
 
         [offset, board_size] = self.get_board_details()
@@ -52,5 +56,10 @@ class View:
                 cell_size
             ))
 
-            if(value):
-                value.draw(offset, pos, self.window.surface, cell_size)
+            if(value and (movement_piece is None or pos.index != movement_piece[0])):
+                x, y = pos.get_pixel_location(offset, board_size, cell_size)
+                value.draw(x, y, self.window.surface, cell_size)
+
+        if(movement_piece):
+            x, y = mouse.get_pos()
+            movement_piece[1].draw(x, y, self.window.surface, cell_size)

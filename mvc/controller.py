@@ -13,12 +13,23 @@ class Controller:
         self._draw()
 
     def _draw(self):
-        self.view.draw(self.model.itterate_board())
+        self.view.draw(
+            self.model.itterate_board(),
+            movement_piece=self.model.movement_piece
+        )
 
     def handle_mouse_down(self, event: Event):
         try:
             [offset, board_size] = self.view.get_board_details()
-            Coordinate.from_pixel(event, offset, board_size)
+            pos = Coordinate.from_pixel(event, offset, board_size)
+
+            piece = self.model.get_cell(pos)
+            if(piece is None):
+                return
+            
+            self.model.start_piece_movement(pos)
+            self._draw()
+
         except AssertionError:
             ...
 
@@ -26,7 +37,10 @@ class Controller:
         ...
 
     def handle_mouse_movement(self, event: Event):
-        ...
+        if(self.model.movement_piece is None):
+            return
+        
+        self._draw()
 
     def handle_resize(self, event: Event):
         self._draw()

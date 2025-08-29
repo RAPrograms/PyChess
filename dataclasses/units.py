@@ -47,6 +47,15 @@ class Coordinate:
             row
         ]
     
+    def get_pixel_location(self, bondary_start: list[int], bondary_size: int, cell_size: int):
+        col, row = self.position
+        half_size = cell_size / 2
+
+        return [
+            bondary_start[0] + (col * cell_size) + half_size,
+            bondary_start[1] + (row * cell_size) + half_size
+        ]
+    
     @property
     def column(self):
         return self.position[0]

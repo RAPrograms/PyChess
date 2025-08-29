@@ -13,9 +13,12 @@ from pieces.king import King
 class Model:
     _board: list[Any]
 
+    _moving_piece: int
+
     def __init__(self):
         self.clear_board()
         self.setup_pieces()
+        self._moving_piece = None
 
         pos = Coordinate.from_position(0, 6)
         self._board[pos.index].get_valid_movements(pos, self._board)
@@ -30,9 +33,16 @@ class Model:
     def set_cell(
         self,
         position: Coordinate,
-        value: None | Rook | Knight | Bishop | King | Queen | Bishop | Knight | Rook
+        value: None | Rook | Knight | Bishop | King | Queen | Bishop | Knight | Rook | Pawn
     ):
         self._board[position.index] = value
+        
+
+    def get_cell(self, position: Coordinate) -> None | Rook | Knight | Bishop | King | Queen | Bishop | Knight | Rook | Pawn:
+        try:
+            return self._board[position.index]
+        except IndexError:
+            return None
 
 
     def setup_pieces(self):
@@ -72,3 +82,9 @@ class Model:
             except IndexError:
                 yield (coordinate, None)
         
+    @property
+    def movement_piece(self):
+        return self._moving_piece
+
+    def start_piece_movement(self, pos: Coordinate):
+        self._moving_piece = [pos.index, self.get_cell(pos)]
