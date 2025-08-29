@@ -36,8 +36,6 @@ class Piece:
         return 8 - position.row
 
     def make_direction_absolute(self, direction: RelativeDirection):
-
-
         if(self.team == Team.Black):
             return Direction(direction.value)
         
@@ -47,6 +45,27 @@ class Piece:
         vertical *= -1
         
         return Direction((horizontal, vertical))
+    
+    def create_direction_paths(
+        self,
+        position: Coordinate,
+        model: Model,
+        directions: list[Direction]
+    ):
+        output = []
+        for dir in directions:
+            for pos, _ in position.itterate_direction(dir):
+                content = model.get_cell(pos)
+                if(content is not None and content.team == self.team):
+                    break
+
+                output.append(pos)
+                if(content is not None):
+                    break
+
+                continue
+
+        return output
 
     def get_valid_movements(self, position: Coordinate, model: Model) -> list[Coordinate]:
         raise NotImplemented

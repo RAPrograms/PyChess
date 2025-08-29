@@ -16,22 +16,9 @@ class Rook(Piece):
         position: Coordinate,
         model: Model,
     ) -> list[Coordinate]:
-        output = []
-        for dir in [
+        return self.create_direction_paths(position, model, [
             Direction.Up,
             Direction.Right,
             Direction.Down,
             Direction.Left
-        ]:
-            for pos, _ in position.itterate_direction(dir):
-                content = model.get_cell(pos)
-                if(content is not None and content.team == self.team):
-                    break
-
-                output.append(pos)
-                if(content is not None):
-                    break
-
-                continue
-
-        return output
+        ])
