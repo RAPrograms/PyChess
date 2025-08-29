@@ -50,6 +50,11 @@ class Controller:
             [offset, board_size] = self.view.get_board_details()
             pos = Coordinate.from_pixel(event.pos, offset, board_size)
 
+            if(not movement.valid_move(pos)):
+                self.model.end_piece_movement()
+                self._draw()
+                return
+
             self.model.move_piece(movement.position, pos)
 
             self.model.end_piece_movement()
