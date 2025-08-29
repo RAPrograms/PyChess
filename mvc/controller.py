@@ -1,5 +1,6 @@
 from pygame.event import Event
 
+from dataclasses.units import Coordinate
 from mvc.model import Model
 from mvc.view import View
 
@@ -14,8 +15,18 @@ class Controller:
     def _draw(self):
         self.view.draw(self.model.itterate_board())
 
+    def handle_mouse_down(self, event: Event):
+        try:
+            [offset, board_size] = self.view.get_board_details()
+            Coordinate.from_pixel(event, offset, board_size)
+        except AssertionError:
+            ...
+
+    def handle_mouse_up(self, event: Event):
+        ...
+
     def handle_mouse_movement(self, event: Event):
-        print(event)
+        ...
 
     def handle_resize(self, event: Event):
         self._draw()

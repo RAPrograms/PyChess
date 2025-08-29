@@ -20,20 +20,26 @@ class View:
 
 
     def set_controller(self, instance):
+        self.window.add_event(locals.MOUSEBUTTONDOWN, instance.handle_mouse_down)
+        self.window.add_event(locals.MOUSEBUTTONUP, instance.handle_mouse_up)
         self.window.add_event(locals.MOUSEMOTION, instance.handle_mouse_movement)
         self.window.add_event(locals.VIDEORESIZE, instance.handle_resize)
 
+    def get_board_details(self):
+        board_size = self.window.smallest_boundary
+        half_board = board_size / 2
+        
+        offset = self.window.screen_center
+        offset[0] -= half_board
+        offset[1] -= half_board
+
+        return [offset, board_size]
 
     def draw(self, data: Generator[tuple[Coordinate, None | Rook | Knight | Bishop | King | Queen | Bishop | Knight | Rook | Pawn], Any, None]):
         self.window.surface.fill((0,0,0))
 
-        board_size = self.window.smallest_boundary
-        half_board = board_size / 2
+        [offset, board_size] = self.get_board_details()
         cell_size = board_size / 8
-
-        offset = self.window.screen_center
-        offset[0] -= half_board
-        offset[1] -= half_board
 
         for pos, value in data:
             col, row = pos.position

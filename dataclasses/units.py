@@ -1,3 +1,7 @@
+from math import floor
+
+from pygame.event import Event
+
 from dataclasses.enums import Direction
 
 class Coordinate:
@@ -10,6 +14,23 @@ class Coordinate:
         assert 0 <= row and row < 8, f"Row out of board ({row})"
 
         return self((row * 8) + column)
+    
+    @classmethod
+    def from_pixel(self, event: Event, bondary_start: list[int], size: int):
+        x, y = event.pos
+        
+        assert bondary_start[0] <= x and bondary_start[1] <= y, "Pixel out of board bounds"
+        assert x <= (bondary_start[0] + size) and y <= (bondary_start[1] + size), "Pixel out of board bounds"
+         
+        x -= bondary_start[0]
+        y -= bondary_start[1]
+
+        cell_size = size / 8
+
+        column = floor(x / cell_size)
+        row = floor(y / cell_size)
+
+        return Coordinate.from_position(column, row)
 
     @property
     def index(self):
