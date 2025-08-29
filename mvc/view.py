@@ -1,7 +1,7 @@
 from pygame import locals, draw
 
-from window import Window
-from model import Model
+from dataclasses.window import Window
+from mvc.model import Model
 
 class View:
     def __init__(self, window: Window, model: Model):

@@ -1,7 +1,7 @@
 from typing import Any, Generator
 
-from units import Coordinate
-from enums import Team
+from dataclasses.units import Coordinate
+from dataclasses.enums import Team
 
 from pieces.bishop import Bishop
 from pieces.knight import Knight
