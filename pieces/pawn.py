@@ -16,15 +16,19 @@ class Pawn(Piece):
         position: Coordinate,
         model: Model,
     ) -> list[Coordinate]:
-        foward_dir = self.make_direction_absolute(RelativeDirection.Foward)
+        forward_dir = self.make_direction_absolute(RelativeDirection.Forward)
 
         #Handles first move
         if(self.get_side_distance(position) == 2):
-            return position.create_move_path(foward_dir)
+            return position.create_move_path(forward_dir)
        
         output = []
-        foward_pieces = model.get_pieces_in_direction(position, foward_dir, 1)
-        if(foward_pieces[0] == None):
-            output.append(position.move(foward_dir))
+
+        #Forward
+        forward_pieces = model.get_pieces_in_direction(position, forward_dir, 1)
+        if(forward_pieces[0] == None):
+            output.append(position.move(forward_dir))
+
+        
 
         return output

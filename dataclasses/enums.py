@@ -15,9 +15,9 @@ class Direction(Enum):
     Left = (-1, 0)
 
 class RelativeDirection(Enum):
-    FowardLeft = (-1, -1)
-    Foward = (0, -1)
-    FowardRight = (1, -1)
+    ForwardLeft = (-1, -1)
+    Forward = (0, -1)
+    ForwardRight = (1, -1)
     Right = (1, 0)
     BackwardsRight = (1, 1)
     Backwards = (0, 1)
