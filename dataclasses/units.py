@@ -114,17 +114,24 @@ class Coordinate:
     def create_move_path(self, direction: Direction, distance: int = 2):
         assert distance >= 1, "Distance must be a positive number"
 
-        velocity = (direction.value[1] * 8) + direction.value[0]
         output = []
 
-        for i in range(1, distance + 1):
-            index = self.index + (velocity * i)
-            pos = Coordinate(index)
-            if(pos is None):
+        for pos, i in self.itterate_direction(direction):
+            if(distance <= i):
                 break
+            
             output.append(pos)
 
         return output
+    
+    def itterate_direction(self, direction: Direction):
+        pos = self
+        for i in range(7):
+            pos = pos.move(direction)
+            if(pos is None):
+                break
+
+            yield pos, i
 
     
     def __eq__(self, other):
