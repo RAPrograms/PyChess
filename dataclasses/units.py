@@ -1,7 +1,5 @@
 from math import floor
 
-from pygame.event import Event
-
 from dataclasses.enums import Direction
 
 class Coordinate:

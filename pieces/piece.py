@@ -50,3 +50,9 @@ class Piece:
 
     def get_valid_movements(self, position: Coordinate, model: Model) -> list[Coordinate]:
         raise NotImplemented
+
+    def __repr__(self):
+        return self.__str__()
+
+    def __str__(self):
+        return f"<{self.__class__.__name__}>"
