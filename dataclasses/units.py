@@ -79,10 +79,11 @@ class Coordinate:
         velocity = (direction.value[1] * 8) + direction.value[0]
         return Coordinate(self.index + velocity)
     
+    def __eq__(self, other):
+        return self.index == other.index
 
     def __repr__(self):
         return self.__str__()
-    
 
     def __str__(self):
         position = self.position

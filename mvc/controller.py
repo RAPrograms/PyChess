@@ -34,7 +34,18 @@ class Controller:
             ...
 
     def handle_mouse_up(self, event: Event):
-        ...
+        movement = self.model.movement_piece
+        if(movement is None):
+            return
+
+        [offset, board_size] = self.view.get_board_details()
+        pos = Coordinate.from_pixel(event, offset, board_size)
+
+        self.model.set_cell(pos, movement.piece)
+        self.model.set_cell(movement.position, None)
+
+        self.model.end_piece_movement()
+        self._draw()
 
     def handle_mouse_movement(self, event: Event):
         if(self.model.movement_piece is None):

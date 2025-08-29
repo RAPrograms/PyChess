@@ -1,5 +1,6 @@
 from typing import Any, Generator
 
+from dataclasses.moving_event import MovingEvent
 from dataclasses.enums import Direction, Team
 from dataclasses.units import Coordinate
 
@@ -13,7 +14,7 @@ from pieces.king import King
 class Model:
     _board: list[Any]
 
-    _moving_piece: int
+    _moving_piece: MovingEvent | None
 
     def __init__(self):
         self.clear_board()
@@ -59,7 +60,7 @@ class Model:
         position: Coordinate,
         direction: Direction,
         range: int = None,
-        result: list[None | Rook | Knight | Bishop | King | Queen | Bishop | Knight | Rook] = None
+        result: list[None | Rook | Knight | Bishop | King | Queen | Bishop | Knight | Pawn] = None
     ):
         if(range is not None):
             range -= 1
@@ -87,4 +88,10 @@ class Model:
         return self._moving_piece
 
     def start_piece_movement(self, pos: Coordinate):
-        self._moving_piece = [pos.index, self.get_cell(pos)]
+        self._moving_piece = MovingEvent(
+            position=pos,
+            piece=self.get_cell(pos)
+        )
+
+    def end_piece_movement(self):
+        self._moving_piece = None
