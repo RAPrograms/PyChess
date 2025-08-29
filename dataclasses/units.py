@@ -69,3 +69,12 @@ class Coordinate:
     def move(self, direction: Direction):
         velocity = (direction.value[1] * 8) + direction.value[0]
         return Coordinate(self.index + velocity)
+    
+
+    def __repr__(self):
+        return self.__str__()
+    
+
+    def __str__(self):
+        position = self.position
+        return f"<Position: [{position[0]}, {position[1]}] | Index: {self.index} >"
