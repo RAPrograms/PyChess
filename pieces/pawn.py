@@ -1,7 +1,7 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 
-from dataclasses.enums import Direction, RelativeDirection, Team
+from dataclasses.enums import RelativeDirection, Team
 from dataclasses.units import Coordinate
 from .piece import Piece
 
@@ -24,11 +24,25 @@ class Pawn(Piece):
        
         output = []
 
-        #Forward
+        ##Forward
         forward_pieces = model.get_pieces_in_direction(position, forward_dir, 1)
-        if(forward_pieces[0] == None):
+        if(len(forward_pieces) > 0 and forward_pieces[0] == None):
             output.append(position.move(forward_dir))
+       
+        #Side Captures
+        for abs_dir in [RelativeDirection.ForwardLeft, RelativeDirection.ForwardRight]:
+            dir = self.make_direction_absolute(abs_dir)
 
-        
+            path = model.get_pieces_in_direction(position, dir, 2)
+            if(len(path) <= 0 or path[0] is None):
+                continue
+
+            if(path[0].team == self.team):
+                continue
+
+            if(len(path) > 1 and path[1] is not None):
+                continue
+
+            output.append(position.move(abs_dir))
 
         return output
