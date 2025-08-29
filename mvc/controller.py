@@ -20,48 +20,43 @@ class Controller:
         )
 
     def handle_mouse_down(self, event: Event):
-        try:
-            [offset, board_size] = self.view.get_board_details()
-            pos = Coordinate.from_pixel(event.pos, offset, board_size)
+        [offset, board_size] = self.view.get_board_details()
+        pos = Coordinate.from_pixel(event.pos, offset, board_size)
+        if(pos is None):
+            return
 
-            piece = self.model.get_cell(pos)
-            if(piece is None):
-                return
-            
-            self.model.start_piece_movement(MovingEvent(
-                piece=piece,
-                position=pos,
-                valid_movements=piece.get_valid_movements(
-                    pos,
-                    self.model
-                )
-            ))
-            self._draw()
+        piece = self.model.get_cell(pos)
+        if(piece is None):
+            return
+        
+        self.model.start_piece_movement(MovingEvent(
+            piece=piece,
+            position=pos,
+            valid_movements=piece.get_valid_movements(
+                pos,
+                self.model
+            )
+        ))
+        self._draw()
 
-        except AssertionError:
-            ...
 
     def handle_mouse_up(self, event: Event):
-        try:
-            movement = self.model.movement_piece
-            if(movement is None):
-                return
+        movement = self.model.movement_piece
+        if(movement is None):
+            return
 
-            [offset, board_size] = self.view.get_board_details()
-            pos = Coordinate.from_pixel(event.pos, offset, board_size)
-
-            if(not movement.valid_move(pos)):
-                self.model.end_piece_movement()
-                self._draw()
-                return
-
-            self.model.move_piece(movement.position, pos)
-
+        [offset, board_size] = self.view.get_board_details()
+        pos = Coordinate.from_pixel(event.pos, offset, board_size)
+        if(pos is None or not movement.valid_move(pos)):
             self.model.end_piece_movement()
             self._draw()
-        except AssertionError:
-            self.model.end_piece_movement()
-            self._draw()
+            return
+
+        self.model.move_piece(movement.position, pos)
+
+        self.model.end_piece_movement()
+        self._draw()
+        
 
     def handle_mouse_movement(self, event: Event):
         if(self.model.movement_piece is None):

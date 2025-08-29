@@ -59,7 +59,7 @@ class Model:
         direction: Direction,
         distance: int = 7,
         include_start: bool = False
-    ):
+    ) -> list[None | Rook | Knight | Bishop | King | Queen | Bishop | Knight | Rook | Pawn]:
         pos = start_position
         output = []
         if(include_start):

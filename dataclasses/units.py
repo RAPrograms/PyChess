@@ -10,28 +10,43 @@ class Coordinate:
         self._index = index
 
     @classmethod
-    def from_position(self, column: int, row: int):
-        assert 0 <= column and column < 8, f"Column out of board ({column})"
-        assert 0 <= row and row < 8, f"Row out of board ({row})"
+    def from_index(self, index: int):
+        try:
+            return self(index)
+        except AssertionError:
+            return None
 
-        return self((row * 8) + column)
+    @classmethod
+    def from_position(self, column: int, row: int):
+        try:
+            assert 0 <= column and column < 8, f"Column out of board ({column})"
+            assert 0 <= row and row < 8, f"Row out of board ({row})"
+
+            return self((row * 8) + column)
+        except AssertionError:
+            return None
+        
     
     @classmethod
     def from_pixel(self, position: tuple[int, int], bondary_start: list[int], size: int):
         x, y = position
         
-        assert bondary_start[0] <= x and bondary_start[1] <= y, "Pixel out of board bounds"
-        assert x <= (bondary_start[0] + size) and y <= (bondary_start[1] + size), "Pixel out of board bounds"
-         
-        x -= bondary_start[0]
-        y -= bondary_start[1]
+        try:
+            assert bondary_start[0] <= x and bondary_start[1] <= y, "Pixel out of board bounds"
+            assert x <= (bondary_start[0] + size) and y <= (bondary_start[1] + size), "Pixel out of board bounds"
+            
+            x -= bondary_start[0]
+            y -= bondary_start[1]
 
-        cell_size = size / 8
+            cell_size = size / 8
 
-        column = floor(x / cell_size)
-        row = floor(y / cell_size)
+            column = floor(x / cell_size)
+            row = floor(y / cell_size)
 
-        return Coordinate.from_position(column, row)
+            return Coordinate.from_position(column, row)
+        except AssertionError:
+            return None
+        
 
     @property
     def index(self):
@@ -90,10 +105,10 @@ class Coordinate:
 
         for i in range(1, distance + 1):
             index = self.index + (velocity * i)
-            try:
-                output.append(Coordinate(index))
-            except AssertionError:
+            pos = Coordinate(index)
+            if(pos is None):
                 break
+            output.append(pos)
 
         return output
 
