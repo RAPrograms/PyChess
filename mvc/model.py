@@ -53,23 +53,29 @@ class Model:
             self.set_cell(Coordinate.from_position(i, 6), Pawn(Team.Black))
             
 
-    def get_direction_pieces(self,
-        position: Coordinate,
+    def get_pieces_in_direction(
+        self,
+        start_position: Coordinate,
         direction: Direction,
-        range: int = None,
-        result: list[None | Rook | Knight | Bishop | King | Queen | Bishop | Knight | Pawn] = None
+        distance: int = 7,
+        include_start: bool = False
     ):
-        if(range is not None):
-            range -= 1
+        pos = start_position
+        output = []
+        if(include_start):
+            contents = self.get_cell(pos)
+            output.append(contents)
+            distance -= 1
 
-        next_position = position.move(direction)
-        if(not next_position.is_valid() or range == 0):
-            return [self._board[next_position.index]]
+        for _ in range(distance):
+            try:
+                pos = pos.move(direction)
+                contents = self.get_cell(pos)
+                output.append(contents)
+            except AssertionError:
+                break
 
-        output = self.get_direction_pieces(next_position, direction, range, result) or []
-        output.insert(0, self._board[position.index])
         return output
-
 
 
     def itterate_board(self) -> Generator[tuple[Coordinate, None | Rook | Knight | Bishop | King | Queen | Bishop | Knight | Rook | Pawn], Any, None]:

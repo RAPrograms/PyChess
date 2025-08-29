@@ -23,6 +23,8 @@ class Pawn(Piece):
             return position.create_move_path(foward_dir)
        
         output = []
+        foward_pieces = model.get_pieces_in_direction(position, foward_dir, 1)
+        if(foward_pieces[0] == None):
+            output.append(position.move(foward_dir))
 
-
-        return []
+        return output
