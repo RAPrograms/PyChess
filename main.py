@@ -5,8 +5,8 @@ from mvc.view import View
 
 window = Window("Chess.py")
 
+view = View(window=window)
 model = Model()
-view = View(window=window, model=model)
 
 controller = Controller(model=model, view=view)
 

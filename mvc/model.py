@@ -26,6 +26,7 @@ class Model:
         for _ in self.itterate_board():
             self._board.append(None)
         
+
     def set_cell(
         self,
         position: Coordinate,
@@ -63,7 +64,7 @@ class Model:
 
 
 
-    def itterate_board(self) -> Generator[tuple[Coordinate, None | Rook | Knight | Bishop | King | Queen | Bishop | Knight | Rook], Any, None]:
+    def itterate_board(self) -> Generator[tuple[Coordinate, None | Rook | Knight | Bishop | King | Queen | Bishop | Knight | Rook | Pawn], Any, None]:
         for i in range(64):
             coordinate = Coordinate(i)
             try:

@@ -3,7 +3,6 @@ from pygame import locals, draw
 
 from dataclasses.units import Coordinate
 from dataclasses.window import Window
-from mvc.model import Model
 
 from pieces.bishop import Bishop
 from pieces.knight import Knight
@@ -16,9 +15,9 @@ cWhite = (255, 255, 255)
 cBlack = (0,255,0)
 
 class View:
-    def __init__(self, window: Window, model: Model):
+    def __init__(self, window: Window):
         self.window = window
-        self.model = model
+
 
     def set_controller(self, instance):
         self.window.add_event(locals.MOUSEMOTION, instance.handle_mouse_movement)
