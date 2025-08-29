@@ -1,5 +1,6 @@
 from pygame.event import Event
 
+from dataclasses.moving_event import MovingEvent
 from dataclasses.units import Coordinate
 from mvc.model import Model
 from mvc.view import View
@@ -21,13 +22,20 @@ class Controller:
     def handle_mouse_down(self, event: Event):
         try:
             [offset, board_size] = self.view.get_board_details()
-            pos = Coordinate.from_pixel(event, offset, board_size)
+            pos = Coordinate.from_pixel(event.pos, offset, board_size)
 
             piece = self.model.get_cell(pos)
             if(piece is None):
                 return
             
-            self.model.start_piece_movement(pos)
+            self.model.start_piece_movement(MovingEvent(
+                piece=piece,
+                position=pos,
+                valid_movements=piece.get_valid_movements(
+                    pos,
+                    self.model
+                )
+            ))
             self._draw()
 
         except AssertionError:
@@ -39,7 +47,7 @@ class Controller:
             return
 
         [offset, board_size] = self.view.get_board_details()
-        pos = Coordinate.from_pixel(event, offset, board_size)
+        pos = Coordinate.from_pixel(event.pos, offset, board_size)
 
         self.model.move_piece(movement.position, pos)
 

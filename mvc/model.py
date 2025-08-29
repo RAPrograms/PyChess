@@ -1,7 +1,7 @@
 from typing import Any, Generator
 
 from dataclasses.moving_event import MovingEvent
-from dataclasses.enums import Direction, Team
+from dataclasses.enums import Direction, RelativeDirection, Team
 from dataclasses.units import Coordinate
 
 from pieces.bishop import Bishop
@@ -12,7 +12,7 @@ from pieces.pawn import Pawn
 from pieces.king import King
 
 class Model:
-    _board: list[Any]
+    _board: list[Bishop | Knight | Queen | Rook | Pawn | King | None]
 
     _moving_piece: MovingEvent | None
 
@@ -20,10 +20,7 @@ class Model:
         self.clear_board()
         self.setup_pieces()
         self._moving_piece = None
-
-        pos = Coordinate.from_position(0, 1)
-        self._board[pos.index].get_valid_movements(pos, self._board)
-
+        
 
     def clear_board(self):
         self._board = []
@@ -95,11 +92,8 @@ class Model:
         return self._moving_piece
 
 
-    def start_piece_movement(self, pos: Coordinate):
-        self._moving_piece = MovingEvent(
-            position=pos,
-            piece=self.get_cell(pos)
-        )
+    def start_piece_movement(self, movement: MovingEvent):
+        self._moving_piece = movement
 
 
     def end_piece_movement(self):

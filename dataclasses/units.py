@@ -16,8 +16,8 @@ class Coordinate:
         return self((row * 8) + column)
     
     @classmethod
-    def from_pixel(self, event: Event, bondary_start: list[int], size: int):
-        x, y = event.pos
+    def from_pixel(self, position: tuple[int, int], bondary_start: list[int], size: int):
+        x, y = position
         
         assert bondary_start[0] <= x and bondary_start[1] <= y, "Pixel out of board bounds"
         assert x <= (bondary_start[0] + size) and y <= (bondary_start[1] + size), "Pixel out of board bounds"
@@ -75,8 +75,10 @@ class Coordinate:
         
         return True
 
-    def move(self, direction: Direction):
+    def move(self, direction: Direction, distance: int = 1):
+        assert distance <= 1, "Distance must be a positive number"
         velocity = (direction.value[1] * 8) + direction.value[0]
+        velocity *= distance
         return Coordinate(self.index + velocity)
     
     def __eq__(self, other):

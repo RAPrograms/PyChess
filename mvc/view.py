@@ -35,7 +35,7 @@ class View:
         offset[1] -= half_board
 
         return [offset, board_size]
-
+    
     def draw(
         self,
         data: Generator[tuple[Coordinate, None | Rook | Knight | Bishop | King | Queen | Bishop | Knight | Rook | Pawn], Any, None],
@@ -62,5 +62,39 @@ class View:
                 value.draw(x, y, self.window.surface, cell_size)
 
         if(movement_piece):
+            hovered_cell = None
+            try:
+                hovered_cell = Coordinate.from_pixel(mouse.get_pos(), offset, board_size)
+            except AssertionError:
+                ...
+
+            movement_colour = (255, 0, 0)
+            dot_size = cell_size * .15
+
+            for move in movement_piece.moves:
+                if(hovered_cell is None or hovered_cell != move):
+                    draw.circle(
+                        surface=self.window.surface,
+                        color=movement_colour,
+                        center=move.get_pixel_location(
+                            offset,
+                            board_size, 
+                            cell_size
+                        ),
+                        radius=dot_size
+                    )
+                else:
+                    col, row = move.position
+                    draw.rect(
+                        self.window.surface,
+                        movement_colour,
+                        (
+                            offset[0] + (col * cell_size),
+                            offset[1] + (row * cell_size),
+                            cell_size,
+                            cell_size
+                        )
+                    )
+
             x, y = mouse.get_pos()
             movement_piece.piece.draw(x, y, self.window.surface, cell_size)

@@ -11,10 +11,12 @@ class MovingEvent:
     def __init__(
         self,
         piece: Rook | Knight | Bishop | King | Queen | Bishop | Knight | Pawn,
-        position: Coordinate 
+        position: Coordinate,
+        valid_movements: list[Coordinate] = []
     ):
         self._piece = piece
         self._position = position
+        self._movements = valid_movements
 
     @property
     def piece(self):
@@ -23,3 +25,13 @@ class MovingEvent:
     @property
     def position(self):
         return self._position
+    
+    @property
+    def moves(self):
+        return self._movements
+    
+    def valid_move(self, position: Coordinate):
+        for move in self.moves:
+            if(position == move):
+                return True
+        return False
