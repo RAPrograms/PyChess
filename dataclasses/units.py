@@ -109,20 +109,6 @@ class Coordinate:
             return None
         
         return Coordinate.from_position(column, row)
-
-    
-    def create_move_path(self, direction: Direction, distance: int = 2):
-        assert distance >= 1, "Distance must be a positive number"
-
-        output = []
-
-        for pos, i in self.itterate_direction(direction):
-            if(distance <= i):
-                break
-            
-            output.append(pos)
-
-        return output
     
     def itterate_direction(self, direction: Direction):
         pos = self

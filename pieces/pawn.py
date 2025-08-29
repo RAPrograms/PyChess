@@ -20,7 +20,7 @@ class Pawn(Piece):
 
         #Handles first move
         if(self.get_side_distance(position) == 2):
-            return position.create_move_path(forward_dir)
+            return self.create_direction_paths(position, model, [forward_dir], 2)
        
         output = []
 
