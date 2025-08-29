@@ -50,11 +50,15 @@ class Piece:
         self,
         position: Coordinate,
         model: Model,
-        directions: list[Direction]
+        directions: list[Direction],
+        distance: int = None
     ):
         output = []
         for dir in directions:
-            for pos, _ in position.itterate_direction(dir):
+            for pos, i in position.itterate_direction(dir):
+                if(distance and distance <= i):
+                    break
+                
                 content = model.get_cell(pos)
                 if(content is not None and content.team == self.team):
                     break
