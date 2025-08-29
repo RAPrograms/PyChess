@@ -16,7 +16,8 @@ class Controller:
     def _draw(self):
         self.view.draw(
             self.model.itterate_board(),
-            movement_piece=self.model.movement_piece
+            movement_piece=self.model.movement_piece,
+            team = self.model.get_turn_team
         )
 
     def handle_mouse_down(self, event: Event):
@@ -26,7 +27,7 @@ class Controller:
             return
 
         piece = self.model.get_cell(pos)
-        if(piece is None):
+        if(piece is None or piece.team != self.model.get_turn_team):
             return
         
         self.model.start_piece_movement(MovingEvent(
@@ -55,7 +56,9 @@ class Controller:
         self.model.move_piece(movement.position, pos)
 
         self.model.end_piece_movement()
+        self.model.swap_turn()
         self._draw()
+
         
 
     def handle_mouse_movement(self, event: Event):

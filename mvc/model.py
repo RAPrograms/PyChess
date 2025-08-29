@@ -15,11 +15,13 @@ class Model:
     _board: list[Bishop | Knight | Queen | Rook | Pawn | King | None]
 
     _moving_piece: MovingEvent | None
+    _turn: Team
 
     def __init__(self):
         self.clear_board()
         self.setup_pieces()
         self._moving_piece = None
+        self._turn = Team.White
         
 
     def clear_board(self):
@@ -92,6 +94,20 @@ class Model:
         self.set_cell(original, None)
         self.set_cell(new, contents)
         
+
+    def set_turn(self, team: Team):
+        self._turn = team
+
+    def swap_turn(self):
+        if(self._turn == Team.White):
+            self.set_turn(Team.Black)
+        else:
+            self.set_turn(Team.White)
+
+
+    @property
+    def get_turn_team(self):
+        return self._turn
 
     @property
     def movement_piece(self):

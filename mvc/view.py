@@ -1,6 +1,7 @@
-from pygame import locals, draw, mouse
+from pygame import locals, draw, mouse, font
 from typing import Any, Generator
 
+from dataclasses.enums import Team
 from dataclasses.moving_event import MovingEvent
 from dataclasses.units import Coordinate
 from dataclasses.window import Window
@@ -19,6 +20,9 @@ class View:
     def __init__(self, window: Window):
         self.window = window
 
+        self._textbar_size = 30
+        self._font = font.SysFont('Comic Sans MS', int(self._textbar_size * .7))
+
 
     def set_controller(self, instance):
         self.window.add_event(locals.MOUSEBUTTONDOWN, instance.handle_mouse_down)
@@ -28,22 +32,24 @@ class View:
 
     def get_board_details(self):
         board_size = self.window.smallest_boundary
+        board_size -= self._textbar_size
+
         half_board = board_size / 2
         
         offset = self.window.screen_center
         offset[0] -= half_board
-        offset[1] -= half_board
+        offset[1] = 0
 
         return [offset, board_size]
     
-    def draw(
+
+    def _draw_board(
         self,
         data: Generator[tuple[Coordinate, None | Rook | Knight | Bishop | King | Queen | Bishop | Knight | Rook | Pawn], Any, None],
-        movement_piece: MovingEvent | None = None
+        offset: list[int], 
+        board_size: int,
+        movement_piece: MovingEvent | None = None,
     ):
-        self.window.surface.fill((0,0,0))
-
-        [offset, board_size] = self.get_board_details()
         cell_size = board_size / 8
 
         for pos, value in data:
@@ -62,12 +68,7 @@ class View:
                 value.draw(x, y, self.window.surface, cell_size)
 
         if(movement_piece):
-            hovered_cell = None
-            try:
-                hovered_cell = Coordinate.from_pixel(mouse.get_pos(), offset, board_size)
-            except AssertionError:
-                ...
-
+            hovered_cell = Coordinate.from_pixel(mouse.get_pos(), offset, board_size)
             movement_colour = (255, 0, 0)
             dot_size = cell_size * .15
 
@@ -98,3 +99,43 @@ class View:
 
             x, y = mouse.get_pos()
             movement_piece.piece.draw(x, y, self.window.surface, cell_size)
+
+    def _draw_textbar(
+        self,
+        offset: list[int], 
+        board_size: int,
+        team: Team = Team.White,
+    ):
+        draw.rect(self.window.surface,
+            (255,255,255),
+            (
+                offset[0],
+                offset[1] + board_size,
+                board_size,
+                self._textbar_size,
+            )
+        )
+
+       # print(team.name)
+        text = f"{team.name}'s turn"
+        text_width, _ = self._font.size(text)
+
+        text_surface = self._font.render(text, True, (0, 0, 0))
+        self.window.surface.blit(text_surface, (
+            offset[0] + ((board_size / 2) -(text_width / 2)),
+            offset[1] + board_size
+        ))
+
+    
+    def draw(
+        self,
+        data: Generator[tuple[Coordinate, None | Rook | Knight | Bishop | King | Queen | Bishop | Knight | Rook | Pawn], Any, None],
+        movement_piece: MovingEvent | None = None,
+        team: Team = Team.White,
+    ):
+        self.window.surface.fill((0,0,0))
+
+        [offset, board_size] = self.get_board_details()
+        
+        self._draw_board(data, offset, board_size, movement_piece)
+        self._draw_textbar(offset, board_size, team)    

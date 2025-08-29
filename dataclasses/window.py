@@ -1,6 +1,6 @@
 from typing import Callable
 
-from pygame import RESIZABLE, Surface, display, event as pygame_events
+from pygame import RESIZABLE, Surface, display, font,  event as pygame_events
 from pygame import init as pygame_init, quit as pygame_quit
 from pygame.event import Event
 from pygame import locals
@@ -17,6 +17,7 @@ class Window:
         min_height: int = 200
     ):
         pygame_init()
+        font.init()
 
         self.min_width = min_width
         self.min_height = min_height
