@@ -1,9 +1,13 @@
-from typing import Literal
+from __future__ import annotations
+from typing import Literal, TYPE_CHECKING
 
 from pygame import Surface, image as gameImage, transform as gameTransform
 
-from dataclasses.enums import Team
+from dataclasses.enums import RelativeDirection, Team, Direction
 from dataclasses.units import Coordinate
+
+if TYPE_CHECKING:
+    from mvc.model import Model
 
 class Piece:
     def __init__(self, team: Team, type: Literal["Bishop", "King", "Knight", "Pawn", "Queen", "Rook"]):
@@ -31,5 +35,18 @@ class Piece:
             return position.row + 1
         return 8 - position.row
 
-    def get_valid_movements(self, position: Coordinate) -> list[Coordinate]:
+    def make_direction_absolute(self, direction: RelativeDirection):
+
+
+        if(self.team == Team.Black):
+            return Direction(direction.value)
+        
+        horizontal, vertical = direction.value
+        
+        horizontal *= -1
+        vertical *= -1
+        
+        return Direction((horizontal, vertical))
+
+    def get_valid_movements(self, position: Coordinate, model: Model) -> list[Coordinate]:
         raise NotImplemented

@@ -13,3 +13,13 @@ class Direction(Enum):
     Down = (0, 1)
     DownLeft = (-1, 1)
     Left = (-1, 0)
+
+class RelativeDirection(Enum):
+    FowardLeft = (-1, -1)
+    Foward = (0, -1)
+    FowardRight = (1, -1)
+    Right = (1, 0)
+    BackwardsRight = (1, 1)
+    Backwards = (0, 1)
+    BackwardsLeft = (-1, 1)
+    Left = (-1, 0)

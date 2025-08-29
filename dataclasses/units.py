@@ -6,6 +6,7 @@ from dataclasses.enums import Direction
 
 class Coordinate:
     def __init__(self, index: int):
+        assert 0 <= index and index < 64, f"Index out of board ({index})"
         self._index = index
 
     @classmethod
@@ -76,10 +77,26 @@ class Coordinate:
         return True
 
     def move(self, direction: Direction, distance: int = 1):
-        assert distance <= 1, "Distance must be a positive number"
+        assert distance >= 1, "Distance must be a positive number"
         velocity = (direction.value[1] * 8) + direction.value[0]
         velocity *= distance
         return Coordinate(self.index + velocity)
+    
+    def create_move_path(self, direction: Direction, distance: int = 2):
+        assert distance >= 1, "Distance must be a positive number"
+
+        velocity = (direction.value[1] * 8) + direction.value[0]
+        output = []
+
+        for i in range(1, distance + 1):
+            index = self.index + (velocity * i)
+            try:
+                output.append(Coordinate(index))
+            except AssertionError:
+                break
+
+        return output
+
     
     def __eq__(self, other):
         return self.index == other.index

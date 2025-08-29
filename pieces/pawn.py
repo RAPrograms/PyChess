@@ -1,8 +1,8 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 
+from dataclasses.enums import Direction, RelativeDirection, Team
 from dataclasses.units import Coordinate
-from dataclasses.enums import Direction, Team
 from .piece import Piece
 
 if TYPE_CHECKING:
@@ -16,10 +16,13 @@ class Pawn(Piece):
         position: Coordinate,
         model: Model,
     ) -> list[Coordinate]:
-        
+        foward_dir = self.make_direction_absolute(RelativeDirection.Foward)
+
+        #Handles first move
+        if(self.get_side_distance(position) == 2):
+            return position.create_move_path(foward_dir)
+       
+        output = []
 
 
-        return [
-            Coordinate.from_position(0, 5),
-            Coordinate.from_position(0, 4),
-        ]
+        return []
