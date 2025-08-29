@@ -42,17 +42,21 @@ class Controller:
             ...
 
     def handle_mouse_up(self, event: Event):
-        movement = self.model.movement_piece
-        if(movement is None):
-            return
+        try:
+            movement = self.model.movement_piece
+            if(movement is None):
+                return
 
-        [offset, board_size] = self.view.get_board_details()
-        pos = Coordinate.from_pixel(event.pos, offset, board_size)
+            [offset, board_size] = self.view.get_board_details()
+            pos = Coordinate.from_pixel(event.pos, offset, board_size)
 
-        self.model.move_piece(movement.position, pos)
+            self.model.move_piece(movement.position, pos)
 
-        self.model.end_piece_movement()
-        self._draw()
+            self.model.end_piece_movement()
+            self._draw()
+        except AssertionError:
+            self.model.end_piece_movement()
+            self._draw()
 
     def handle_mouse_movement(self, event: Event):
         if(self.model.movement_piece is None):
