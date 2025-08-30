@@ -32,21 +32,21 @@ class Pawn(Piece):
                 output.append(pos)
        
         #Side Captures
-        for abs_dir in [RelativeDirection.ForwardLeft, RelativeDirection.ForwardRight]:
-            dir = self.make_direction_absolute(abs_dir)
+        for dir in [RelativeDirection.ForwardLeft, RelativeDirection.ForwardRight]:
+            abs_dir = self.make_direction_absolute(dir)
 
-            path = model.get_pieces_in_direction(position, dir, 2)
+            path = model.get_pieces_in_direction(position, abs_dir, 2)
             if(len(path) <= 0 or path[0] is None):
                 continue
-
+            
             if(path[0].team == self.team):
                 continue
 
-            if(len(path) > 1 and path[1] is not None):
-                continue
-
+            if(len(path) > 1):
+                if(path[1] is not None):
+                    continue
+       
             pos = position.move(abs_dir)
-            if(pos is not None):
-                output.append(pos)
+            output.append(pos)
 
         return output
