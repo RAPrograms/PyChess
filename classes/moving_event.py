@@ -1,4 +1,4 @@
-from dataclasses.units import Coordinate
+from classes.units import Coordinate
 
 from pieces.bishop import Bishop
 from pieces.knight import Knight

@@ -1,8 +1,8 @@
 from typing import Any, Generator
 
-from dataclasses.moving_event import MovingEvent
-from dataclasses.enums import Direction, RelativeDirection, Team
-from dataclasses.units import Coordinate
+from classes.moving_event import MovingEvent
+from classes.enums import Direction, RelativeDirection, Team
+from classes.units import Coordinate
 
 from pieces.bishop import Bishop
 from pieces.knight import Knight

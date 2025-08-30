@@ -1,7 +1,7 @@
 from pygame.event import Event
 
-from dataclasses.moving_event import MovingEvent
-from dataclasses.units import Coordinate
+from classes.moving_event import MovingEvent
+from classes.units import Coordinate
 from mvc.model import Model
 from mvc.view import View
 

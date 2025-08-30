@@ -1,8 +1,8 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 
-from dataclasses.enums import Direction, Team
-from dataclasses.units import Coordinate
+from classes.enums import Direction, Team
+from classes.units import Coordinate
 from .piece import Piece
 
 if TYPE_CHECKING:

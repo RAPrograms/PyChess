@@ -1,6 +1,6 @@
 from math import floor
 
-from dataclasses.enums import Direction
+from classes.enums import Direction
 
 class Coordinate:
     def __init__(self, index: int):

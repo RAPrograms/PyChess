@@ -1,4 +1,4 @@
-from dataclasses.window import Window
+from classes.window import Window
 from mvc.controller import Controller
 from mvc.model import Model
 from mvc.view import View

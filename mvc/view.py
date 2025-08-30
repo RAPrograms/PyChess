@@ -1,10 +1,10 @@
 from pygame import locals, draw, mouse, font
 from typing import Any, Generator
 
-from dataclasses.enums import Team
-from dataclasses.moving_event import MovingEvent
-from dataclasses.units import Coordinate
-from dataclasses.window import Window
+from classes.enums import Team
+from classes.moving_event import MovingEvent
+from classes.units import Coordinate
+from classes.window import Window
 
 from pieces.bishop import Bishop
 from pieces.knight import Knight

@@ -3,8 +3,8 @@ from typing import Literal, TYPE_CHECKING
 
 from pygame import Surface, image as gameImage, transform as gameTransform
 
-from dataclasses.enums import RelativeDirection, Team, Direction
-from dataclasses.units import Coordinate
+from classes.enums import RelativeDirection, Team, Direction
+from classes.units import Coordinate
 
 if TYPE_CHECKING:
     from mvc.model import Model
